@@ -1,0 +1,32 @@
+.product {
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    background-color: white;
+    border-radius: 5px;
+    justify-content: space-around;
+    height: 100%;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    align-items: center;
+
+    &__image {
+        width: 130px;
+        height: 240px;
+    }
+
+    &__description-list {
+        align-self: center;
+        list-style: none;
+        padding: 0;
+    }
+}
+
+.add-btn {
+    padding: 5px 10px;
+
+    &__wrapper {
+        align-self: center;
+    }
+}
+.field-name {padding-right: 5px;}

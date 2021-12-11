@@ -1,0 +1,29 @@
+<div class="first-component">
+    <div class="toggle-btn__wrapper">
+        <button class="toggle-btn" (click)="onClick()">toggle first component</button>
+    </div>
+
+    <div [ngClass]="{'hidden': isComponentHidden}">
+    
+        <ul class="product__list">
+            <li class="product">
+                <img class="product__image" src={{snickers.description}} alt={{snickers.name}}>
+                <ul class="product__description-list">
+                    <li class="product__description-item">{{snickers.name}}</li>
+                    <li class="product__description-item">{{snickers.category}}</li>
+                    <li class="product__description-item">{{snickers.price}}</li>
+                    <li class="product__description-item">{{snickers.isAvailable}}</li>
+                </ul>
+            </li>
+            <li class="product" *ngFor="let product of fruitProduct">
+                <img class="product__image" src={{product.description}} alt={{product.name}}>
+                <ul class="product__description-list">
+                    <li class="product__description-item">{{product.name}}</li>
+                    <li class="product__description-item">{{product.category}}</li>
+                    <li class="product__description-item">{{product.price}}</li>
+                    <li class="product__description-item">{{product.isAvailable}}</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
