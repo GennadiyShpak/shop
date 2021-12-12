@@ -1,1 +1,19 @@
-<p>cart-list works!</p>
+<div class="cart__wrapper">
+    <div class="open-cart__btn--wrapper">
+        <button (click)="onOpenCartClick()">{{cartBtnStatus}} cart</button>
+    </div>
+    
+    <div *ngIf="isCartOpen" class="cart">
+        <ul *ngIf="products.length; else emptyCart" class="cart__list">
+            <li *ngFor="let product of products; trackBy: trackByFn" class="cart__item">
+                <span>{{product.name}}:</span>
+                <span>{{product.phoneInCart}}</span>
+            </li>
+        </ul>
+        <ng-template #emptyCart>
+            <div class="cart__list">
+                <h2 class="empty-cart">The cart is empty</h2>
+            </div>
+        </ng-template>
+    </div>
+</div>

@@ -18,9 +18,7 @@ export class ProductComponent implements OnInit {
   }
 
   onAddToCart(): void {
-    this.cartService.addProductsToCart(this.phone)
-    console.log(this.cartService.productsInCart);
-    
+    this.cartService.addProductsToCart(this.phone);
     console.log(`This ${this.phone.name} was added to cart`);
   }
 
