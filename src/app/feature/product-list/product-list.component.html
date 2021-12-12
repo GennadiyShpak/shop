@@ -1,4 +1,4 @@
 
-<ul class="phones__wrapper">
-    <app-product *ngFor="let phone of phonesForSale" [phone]="phone"></app-product>
+<ul *ngIf="!isCartOpen" class="phones__wrapper">
+    <app-product *ngFor="let phone of phonesForSale; trackBy: trackByFn" [phone]="phone"></app-product>
 </ul>

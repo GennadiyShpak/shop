@@ -3,4 +3,6 @@ export interface ProductModel {
     image: string,
     price: number,
     isAvailable: boolean,
+    phoneInCart: number
   }
+  
