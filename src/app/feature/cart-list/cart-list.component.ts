@@ -34,10 +34,19 @@ export class CartListComponent implements OnInit, OnDestroy{
     return index;
   }
 
+  // На мой взгляд нечитаемый код - выглядит как последовательность из трех операций,
+  // а на самом деле это не так и понимаешь это, когда посмотришь в конец строчки
+  // но некоторые коллеги не любят ставить точку запятой и не смотрят в конец строчки
   onOpenCartClick(): void {
     this.isCartOpen ?
     this.cartService.setIsCartOpenFalse():
     this.cartService.setIsCartOpenTrue();
+
+    // я бы так писал
+    // this.isCartOpen
+      // ? this.cartService.setIsCartOpenFalse()
+      // : this.cartService.setIsCartOpenTrue();
+
   }
 
   private initServices(): void {
