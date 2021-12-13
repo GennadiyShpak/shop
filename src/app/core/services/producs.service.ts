@@ -7,7 +7,7 @@ import { ProductModel } from '../models/product-model';
 })
 export class ProducsService {
 
-  phonesForSale: ProductModel[] = [
+  private phonesForSale: ProductModel[] = [
     {
       name: 'Apple',
       image: '../../../assets/apple.jpg',

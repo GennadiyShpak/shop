@@ -10,6 +10,7 @@ import { ProductModel } from '../../core/models/product-model';
 export class ProductComponent implements OnInit {
   @Input() phone: ProductModel = {} as ProductModel;
 
+  // не стоит тут внедрять зависимость
   constructor(
     private cartService: CartService
   ) { }
