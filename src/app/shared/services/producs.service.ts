@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { ProductModel } from '../models/product-model';
 
 @Injectable({
@@ -7,7 +6,7 @@ import { ProductModel } from '../models/product-model';
 })
 export class ProducsService {
 
-  phonesForSale: ProductModel[] = [
+  private phonesForSale: ProductModel[] = [
     {
       name: 'Apple',
       image: '../../../assets/apple.jpg',

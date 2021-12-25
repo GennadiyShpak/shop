@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { CartService } from 'src/app/core/services/cart.service';
-import { ProducsService } from 'src/app/core/services/producs.service';
-import { ProductModel } from '../../core/models/product-model';
+import { CartService } from 'src/app/shared/services/cart.service';
+import { ProducsService } from 'src/app/shared/services/producs.service';
+import { ProductModel } from '../../shared/models/product-model';
 
 @Component({
   selector: 'app-product-list',

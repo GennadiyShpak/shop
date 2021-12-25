@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { ProductModel } from 'src/app/core/models/product-model';
-import { CartService } from 'src/app/core/services/cart.service';
-import { ProducsService } from 'src/app/core/services/producs.service';
+import { Subject, takeUntil } from 'rxjs';
+import { ProductModel } from 'src/app/shared/models/product-model';
+import { CartService } from 'src/app/shared/services/cart.service';
 
 @Component({
   selector: 'app-cart-list',
@@ -35,9 +34,9 @@ export class CartListComponent implements OnInit, OnDestroy{
   }
 
   onOpenCartClick(): void {
-    this.isCartOpen ?
-    this.cartService.setIsCartOpenFalse():
-    this.cartService.setIsCartOpenTrue();
+    this.isCartOpen 
+    ? this.cartService.setIsCartOpenFalse()
+    : this.cartService.setIsCartOpenTrue();
   }
 
   private initServices(): void {
