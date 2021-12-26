@@ -1,0 +1,14 @@
+.product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.counter {
+    margin: 0 5px;
+
+    &__wrapper {
+        display: flex;
+        margin-bottom: 10px;
+    }
+}

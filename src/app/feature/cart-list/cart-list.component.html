@@ -4,16 +4,33 @@
     </div>
     
     <div *ngIf="isCartOpen" class="cart">
-        <ul *ngIf="products.length; else emptyCart" class="cart__list">
-            <li *ngFor="let product of products; trackBy: trackByFn" class="cart__item">
-                <span>{{product.name}}:</span>
-                <span>{{product.phoneInCart}}</span>
-            </li>
-        </ul>
+        <div *ngIf="phones.length; else emptyCart" class="cart__list">
+            <app-cart-item
+                *ngFor="let phone of phones; trackBy: trackByFn" 
+                class="cart__item"
+                [phone]="phone"
+                [isPhoneInCart]="isCartOpen"
+                (incrementPhoneInCart)="onIncrementPhoneBtn($event)"
+                (decrementPhoneInCart)="onDecrementPhoneBtn($event)"
+                (removePhoneFromCart)="onRemovePhoneBtn($event)"
+            ></app-cart-item>
+        </div>
         <ng-template #emptyCart>
-            <div class="cart__list">
+            <div class="cart__list--empty">
                 <h2 class="empty-cart">The cart is empty</h2>
             </div>
         </ng-template>
+
+        <div *ngIf="phones.length" class="order-amount__wrapper"> 
+            <div class="total-sum__wrapper">
+                <span class="total-sum__description">Full order amount:</span>
+                <span class="total-sum">{{orderSum}}</span>
+            </div>
+    
+            <div class="clear-cart__btn--wrapper">
+                <button (click)="clearCart()">Clear cart</button>
+            </div>
+        </div>
+        
     </div>
 </div>

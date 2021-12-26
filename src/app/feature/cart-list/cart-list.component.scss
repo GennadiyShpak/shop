@@ -1,4 +1,15 @@
 .cart {
+    display: flex;
+    flex-direction: column;
+
+    &__list {
+        display: flex;
+        margin-bottom: 20px;
+
+        &--empty {
+            width: 100%;
+        }
+    }
 
     &__wrapper {
         width: 1200px;
@@ -14,4 +25,25 @@
 
 .open-cart__btn--wrapper {
     text-align: center;
+}
+
+.order-amount__wrapper{
+    display: flex;
+    justify-content: space-evenly;
+    border-top: 1px solid black;
+    padding-top: 10px;
+}
+
+.total-sum {
+    font-size: 20px;
+
+    &__wrapper {
+        text-align: center;
+    }
+
+    &__description {
+        font-size: 20px;
+        font-weight: bold;
+        margin-right: 10px;
+    }
 }
