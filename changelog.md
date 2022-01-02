@@ -13,3 +13,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cart service.
 - Products service.
 - Product model.
+
+##[homework-2] - 02.01.2022
+
+### Added
+
+- Cart-item componet.
+- hightliting directive.
+- Shared module.
+- cart-item module
+- cart-list module
+- product-list module
+
+
+### Changed
+
+- Cart-list component
+- product component

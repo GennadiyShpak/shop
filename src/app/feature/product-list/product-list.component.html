@@ -1,4 +1,10 @@
 
 <ul *ngIf="!isCartOpen" class="phones__wrapper">
-    <app-product *ngFor="let phone of phonesForSale; trackBy: trackByFn" [phone]="phone"></app-product>
+    <app-product 
+        *ngFor="let phone of phonesForSale; trackBy: trackByFn"
+        [phone]="phone"
+        [isPhoneInCart]="isCartOpen"
+        (getPhoneToCart)="onAddToCart($event)"
+    >
+    </app-product>
 </ul>

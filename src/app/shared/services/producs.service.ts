@@ -12,28 +12,24 @@ export class ProducsService {
       image: '../../../assets/apple.jpg',
       price: 14999,
       isAvailable: true,
-      phoneInCart: 0,
     },
     {
       name: 'Samsung',
       image: '../../../assets/samsung.jpg',
       price: 10499,
       isAvailable: true,
-      phoneInCart: 0,
     },
     {
       name: 'Poco',
       image: '../../../assets/poco.jpg',
       price: 8499,
       isAvailable: false,
-      phoneInCart: 0,
     },
     {
       name: 'Xiaomi',
       image: '../../../assets/xiaomi.jpg',
       price: 11999,
       isAvailable: true,
-      phoneInCart: 0,
     }
   ];
 

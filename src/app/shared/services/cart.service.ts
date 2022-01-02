@@ -1,47 +1,76 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { ProductModel } from '../models/product-model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { CartProductModel, ProductModel } from '../models/product-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  private isCartOpen = new BehaviorSubject<boolean>(false);
-  isCartOpen$ = this.isCartOpen.asObservable();
+  private isCartOpen: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isCartOpen$: Observable<boolean> = this.isCartOpen.asObservable();
 
-  productsInCart: ProductModel[] = [];
+  private productsInCart: CartProductModel[] = [];
+  readonly lastPhoneInCart: number = 1;
 
-  getCartsProducts(): ProductModel[] {
-    return this.productsInCart
+  getCartsProducts(): CartProductModel[] {
+    return this.productsInCart;
   }
 
   addProductsToCart(product: ProductModel): void {
-    const isProductPresent = this.isPresentInCart(product)
+    const cartProduct: CartProductModel = {...product,...{phoneInCart: 1}};
+    const isProductPresent = this.isPresentInCart(cartProduct);
     if (isProductPresent) {
-      this.incrementCartCounter(product)
+      this.incrementCartCounter(cartProduct);
     } else{
-      product.phoneInCart = 1;
-      this.productsInCart.push(product)
+      this.productsInCart.push(cartProduct);
     }
+  }
+
+  removeProductFromCart(product: CartProductModel): void{
+    if (product.phoneInCart === this.lastPhoneInCart) {
+      this.filterProductList(product);
+    } else {
+      this.decrementCartCounter(product);
+    }
+  }
+
+  getTotalSum(phone: CartProductModel): number{
+      const {price, phoneInCart} = phone;
+      return price * phoneInCart;
   }
 
   setIsCartOpenTrue(): void {
-    this.isCartOpen.next(true)
+      this.isCartOpen.next(true);
   }
 
   setIsCartOpenFalse(): void {
-    this.isCartOpen.next(false)
+      this.isCartOpen.next(false);
+  }
+  
+  filterProductList(product: CartProductModel): void {
+      this.productsInCart = this.productsInCart.filter(phone => phone.name !== product.name);
   }
 
-  private isPresentInCart(product: ProductModel): boolean {
-    return Boolean(this.productsInCart.some(phone => phone.name === product.name))
+  clearCart(): void {
+    this.productsInCart = [];
   }
 
-  private incrementCartCounter(product: ProductModel): void {
-    const phone = this.productsInCart.find(phone => phone.name === product.name)
-    if (phone?.phoneInCart) {
-      phone.phoneInCart += 1
-    }
+  private isPresentInCart(product: CartProductModel): boolean {
+      return Boolean(this.productsInCart.some(phone => phone.name === product.name));
+  }
+
+  private incrementCartCounter(product: CartProductModel): void {
+      const phone = this.productsInCart.find(phone => phone.name === product.name);
+      if (phone) {
+        phone.phoneInCart += 1;
+      }
+  }
+
+  private decrementCartCounter(product: CartProductModel): void {
+      const phone = this.productsInCart.find(phone => phone.name === product.name);
+      if (phone) {
+        phone.phoneInCart -= 1;
+      }
   }
 }

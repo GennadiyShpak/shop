@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
+import { ProductModel } from 'src/app/shared/models/product-model';
 import { CartService } from 'src/app/shared/services/cart.service';
 import { ProducsService } from 'src/app/shared/services/producs.service';
-import { ProductModel } from '../../shared/models/product-model';
 
 @Component({
   selector: 'app-product-list',
@@ -27,6 +27,11 @@ export class ProductListComponent implements OnInit {
 
   trackByFn(index: number): number {
     return index;
+  }
+
+  onAddToCart(phone: ProductModel):void {
+    this.cartService.addProductsToCart(phone);
+    console.log(`This ${phone.name} was added to cart`);
   }
 
   private initServices(): void {

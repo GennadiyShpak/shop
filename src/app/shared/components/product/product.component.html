@@ -1,16 +1,22 @@
-<li class="product">
-    <img class="product__image" src={{phone.image}} alt={{phone.name}}>
+<li 
+    appHighlighting 
+    class="product"
+    [isPhoneInCart]="isPhoneInCart"
+ >
+    <img class="product__image" [src]="phone.image" alt="phone.name">
+
     <ul class="product__description-list">
         <li class="product__description-item"><span class="field-name">model:</span>{{phone.name}}</li>
         <li class="product__description-item"><span class="field-name">price:</span>{{phone.price}}</li>
-        <li class="product__description-item">
+        <li *ngIf="!isPhoneInCart" class="product__description-item">
             <span *ngIf="phone.isAvailable; else notAvailable">Avalible for sale</span>
             <ng-template #notAvailable>
                 <span class="product__description-item">Not in stock</span> 
             </ng-template>
         </li>
     </ul>
-    <div class="add-btn__wrapper">
-        <button class="add-btn" (click)="onAddToCart()" [disabled]="!phone.isAvailable">Add to cart</button>
+
+    <div *ngIf="!isPhoneInCart" class="add-btn__wrapper">
+        <button class="add-btn" (click)="addToCart(phone)" [disabled]="!phone.isAvailable">Add to cart</button>
     </div>
 </li>
