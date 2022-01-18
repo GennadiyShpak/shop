@@ -40,6 +40,7 @@ export class ProductListComponent implements OnInit {
   }
 
   private setIsCartOpen(): void {
+    // вот тут не очень понятно, когда происходит отписка, так как this.unsubscribe$ не публикует данных
     this.cartService.isCartOpen$.pipe(takeUntil(this.unsubscribe$)).subscribe(
       value => {
         this.isCartOpen = value
