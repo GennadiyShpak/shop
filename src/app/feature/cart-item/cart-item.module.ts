@@ -13,4 +13,5 @@ import { SharedModule } from 'src/app/shared/shared.module';
   ],
   exports:[CartItemComponent]
 })
+// а надо ли для каждого компонента создавать свой модуль?
 export class CartItemModule { }
