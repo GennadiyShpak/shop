@@ -4,7 +4,7 @@ import { ProductModel } from '../models/product-model';
 @Injectable({
   providedIn: 'root'
 })
-export class ProducsService {
+export class ProductsService {
 
   private phonesForSale: ProductModel[] = [
     {
