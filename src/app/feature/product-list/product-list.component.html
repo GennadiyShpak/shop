@@ -13,7 +13,7 @@
 
   <ul *ngIf="!isCartOpen" class="phones__wrapper">
     <app-product
-      *ngFor="let phone of phonesForSale; trackBy: trackByFn"
+      *ngFor="let phone of phonesForSale | async; trackBy: trackByFn"
       [phone]="phone"
       [isPhoneInCart]="isCartOpen"
       (getPhoneToCart)="onAddToCart($event)"

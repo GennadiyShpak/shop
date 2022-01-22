@@ -25,6 +25,7 @@
 
 .open-cart__btn--wrapper {
     text-align: center;
+  margin-bottom: 10px;
 }
 
 .order-amount__wrapper{
@@ -46,4 +47,28 @@
         font-weight: bold;
         margin-right: 10px;
     }
+}
+
+.checkbox-label {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-end;
+  margin-right: 20px;
+
+}
+
+.sort-checkbox {
+  position: absolute;
+  top: 2px;
+  right: -20px;
+}
+
+.select--wrapper {
+  width: 200px;
+}
+
+.sort-form--wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
 }

@@ -31,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cart-list component
 - product component
 
-##[homework-2] - 23.01.2022
+##[homework-3] - 23.01.2022
 
 ### Added
 
@@ -47,3 +47,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Cart-list service (changed cartList type)
 - CartList component (changed logic by receiving cartList)
+
+##[homework-4] - 27.01.2022
+
+### Added
+
+-orderBy pipe
+-async pipe to product list component
+-currency pipe to product component
+-orderBy pipe to cartList component
+-uppercase pipe to product component
