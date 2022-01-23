@@ -1,28 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ProductModel } from 'src/app/shared/models/product-model';
 import { CartService } from 'src/app/shared/services/cart.service';
-import { ProducsService } from 'src/app/shared/services/producs.service';
+import { ProductsService } from 'src/app/shared/services/producs.service';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnDestroy {
 
   phonesForSale: ProductModel[] = [];
   isCartOpen: boolean = false;
+  isInfoOpen: boolean = false;
 
   private unsubscribe$: Subject<any> = new Subject();
 
   constructor(
-    private producsService: ProducsService,
+    private productsService: ProductsService,
     private cartService: CartService,
     ) { }
 
   ngOnInit(): void {
     this.initServices();
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next(null);
+    this.unsubscribe$.complete();
   }
 
   trackByFn(index: number): number {
@@ -32,6 +38,10 @@ export class ProductListComponent implements OnInit {
   onAddToCart(phone: ProductModel):void {
     this.cartService.addProductsToCart(phone);
     console.log(`This ${phone.name} was added to cart`);
+  }
+
+  onInfoBtnClick():void {
+    this.isInfoOpen = !this.isInfoOpen
   }
 
   private initServices(): void {
@@ -48,6 +58,6 @@ export class ProductListComponent implements OnInit {
   }
 
   private getPhones(): void {
-    this.phonesForSale = this.producsService.getProducts();
+    this.phonesForSale = this.productsService.getProducts();
   }
 }

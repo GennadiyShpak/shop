@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {Observable, Subject, takeUntil} from 'rxjs';
 import { CartProductModel } from 'src/app/shared/models/product-model';
 import { CartService } from 'src/app/shared/services/cart.service';
+import {CartStatistics} from "../../shared/models/cart-statistics";
 
 @Component({
   selector: 'app-cart-list',
@@ -9,12 +10,12 @@ import { CartService } from 'src/app/shared/services/cart.service';
   styleUrls: ['./cart-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CartListComponent implements OnInit, OnDestroy, DoCheck{
+export class CartListComponent implements OnInit, OnDestroy {
 
-  phones!: CartProductModel[];
+  phones!: Observable<CartProductModel[]>;
   isCartOpen: boolean = false;
   cartBtnStatus!: string;
-  orderSum!: number;
+  orderSum$!: Observable<CartStatistics>;
 
   private unsubscribe$: Subject<any> = new Subject();
 
@@ -24,11 +25,8 @@ export class CartListComponent implements OnInit, OnDestroy, DoCheck{
 
   ngOnInit(): void {
     this.initServices();
-  }
-
-  ngDoCheck(): void {
     this.getProducts();
-    this.orderSum = this.getTotalSum(this.phones)
+    this.orderSum$ = this.cartService.cartListStatistics$;
   }
 
   ngOnDestroy(): void {
@@ -41,11 +39,11 @@ export class CartListComponent implements OnInit, OnDestroy, DoCheck{
   }
 
   onOpenCartClick(): void {
-    this.isCartOpen 
+    this.isCartOpen
     ? this.cartService.setIsCartOpenFalse()
     : this.cartService.setIsCartOpenTrue();
   }
-  
+
   onIncrementPhoneBtn(phone: CartProductModel): void {
     this.cartService.addProductsToCart(phone);
   }
@@ -67,7 +65,7 @@ export class CartListComponent implements OnInit, OnDestroy, DoCheck{
       return 0;
     }
 
-    return phoneList.map((phone) => this.cartService.getTotalSum(phone)).reduce((sum1, sum2) => sum1 + sum2, 0);
+    return phoneList.map((phone) => this.cartService.getTotalSumPerProduct(phone)).reduce((sum1, sum2) => sum1 + sum2, 0);
   }
 
   private initServices(): void {
@@ -88,7 +86,7 @@ export class CartListComponent implements OnInit, OnDestroy, DoCheck{
   }
 
   private setCartStatus(): void {
-    this.isCartOpen 
+    this.isCartOpen
     ? this.cartBtnStatus = 'Close'
     : this.cartBtnStatus = 'Open';
   }

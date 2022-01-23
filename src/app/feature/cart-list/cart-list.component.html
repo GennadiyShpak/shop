@@ -2,11 +2,11 @@
     <div class="open-cart__btn--wrapper">
         <button (click)="onOpenCartClick()">{{cartBtnStatus}} cart</button>
     </div>
-    
+
     <div *ngIf="isCartOpen" class="cart">
-        <div *ngIf="phones.length; else emptyCart" class="cart__list">
+        <div *ngIf="(phones | async)?.length; else emptyCart" class="cart__list">
             <app-cart-item
-                *ngFor="let phone of phones; trackBy: trackByFn" 
+                *ngFor="let phone of phones | async; trackBy: trackByFn"
                 class="cart__item"
                 [phone]="phone"
                 [isPhoneInCart]="isCartOpen"
@@ -21,16 +21,21 @@
             </div>
         </ng-template>
 
-        <div *ngIf="phones.length" class="order-amount__wrapper"> 
+        <div *ngIf="(phones | async)?.length" class="order-amount__wrapper">
             <div class="total-sum__wrapper">
                 <span class="total-sum__description">Full order amount:</span>
-                <span class="total-sum">{{orderSum}}</span>
+                <span class="total-sum">{{(orderSum$ |async)?.totalSum}}</span>
             </div>
-    
+
+            <div class="total-sum__wrapper">
+                <span class="total-sum__description">Phone in cart:</span>
+                <span class="total-sum">{{(orderSum$ | async)?.productInCart}}</span>
+            </div>
+
             <div class="clear-cart__btn--wrapper">
                 <button (click)="clearCart()">Clear cart</button>
             </div>
         </div>
-        
+
     </div>
 </div>

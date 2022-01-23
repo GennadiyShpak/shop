@@ -1,10 +1,24 @@
+<div class="product-list__wrapper">
+  <div class="app-info__wrapper">
+    <div *ngIf="isInfoOpen; else infoClosed" class="info__block">
+      <app-info class="app-info"></app-info>
+      <button class="close-info__btn" (click)="onInfoBtnClick()">X</button>
+    </div>
 
-<ul *ngIf="!isCartOpen" class="phones__wrapper">
-    <app-product 
-        *ngFor="let phone of phonesForSale; trackBy: trackByFn"
-        [phone]="phone"
-        [isPhoneInCart]="isCartOpen"
-        (getPhoneToCart)="onAddToCart($event)"
+    <ng-template #infoClosed>
+      <button (click)="onInfoBtnClick()">Info</button>
+    </ng-template>
+
+  </div>
+
+  <ul *ngIf="!isCartOpen" class="phones__wrapper">
+    <app-product
+      *ngFor="let phone of phonesForSale; trackBy: trackByFn"
+      [phone]="phone"
+      [isPhoneInCart]="isCartOpen"
+      (getPhoneToCart)="onAddToCart($event)"
     >
     </app-product>
-</ul>
+  </ul>
+
+</div>

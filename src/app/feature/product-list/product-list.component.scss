@@ -7,3 +7,27 @@
     margin-bottom: 20px;
     background-color: rgb(240, 240, 240);
 }
+
+.app-info__wrapper {
+  position: absolute;
+  top: -40px;
+  right: 25px;
+}
+
+.product-list__wrapper {
+  position: relative;
+}
+
+.info__block {
+  position: relative;
+}
+
+.close-info__btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}

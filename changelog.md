@@ -30,3 +30,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Cart-list component
 - product component
+
+##[homework-2] - 23.01.2022
+
+### Added
+
+- app-info component.
+- background-color directive.
+- config-options service.
+- constant service.
+- gen-id generator.
+- local-storage service.
+- random-id factory
+
+### Changed
+
+- Cart-list service (changed cartList type)
+- CartList component (changed logic by receiving cartList)
