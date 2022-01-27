@@ -3,6 +3,7 @@ import {Observable, Subject, takeUntil} from 'rxjs';
 import { CartProductModel } from 'src/app/shared/models/product-model';
 import { CartService } from 'src/app/shared/services/cart.service';
 import {CartStatistics} from "../../shared/models/cart-statistics";
+import {CartListSelectEnum} from "../../shared/models/ng-select-types";
 
 @Component({
   selector: 'app-cart-list',
@@ -12,10 +13,13 @@ import {CartStatistics} from "../../shared/models/cart-statistics";
 })
 export class CartListComponent implements OnInit, OnDestroy {
 
-  phones!: Observable<CartProductModel[]>;
+  phones!: CartProductModel[];
   isCartOpen: boolean = false;
   cartBtnStatus!: string;
   orderSum$!: Observable<CartStatistics>;
+  isAsc: boolean = false;
+  sortingSelectList: CartListSelectEnum[] = [CartListSelectEnum.phoneInCart, CartListSelectEnum.name, CartListSelectEnum.price];
+  selectValue!: CartListSelectEnum;
 
   private unsubscribe$: Subject<any> = new Subject();
 
@@ -60,12 +64,12 @@ export class CartListComponent implements OnInit, OnDestroy {
     this.cartService.clearCart();
   }
 
-  private getTotalSum(phoneList: CartProductModel[]): number {
-    if (!phoneList) {
-      return 0;
-    }
+  onCheckboxHandle(): void {
+    this.isAsc = !this.isAsc;
+  }
 
-    return phoneList.map((phone) => this.cartService.getTotalSumPerProduct(phone)).reduce((sum1, sum2) => sum1 + sum2, 0);
+  changeFn(value: CartListSelectEnum): void {
+    this.selectValue = value;
   }
 
   private initServices(): void {
@@ -82,7 +86,9 @@ export class CartListComponent implements OnInit, OnDestroy {
   }
 
   private getProducts(): void {
-    this.phones = this.cartService.getCartsProducts();
+    this.cartService.getCartsProducts().subscribe((cartList) => {
+      this.phones = cartList
+    });
   }
 
   private setCartStatus(): void {

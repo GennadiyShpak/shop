@@ -4,9 +4,24 @@
     </div>
 
     <div *ngIf="isCartOpen" class="cart">
-        <div *ngIf="(phones | async)?.length; else emptyCart" class="cart__list">
+
+      <div class="sort-form--wrapper" *ngIf="phones.length > 1">
+        <label class="checkbox-label">
+          <span>Sort by ascending:</span>
+          <input type="checkbox" [(ngModel)]="isAsc" (click)="onCheckboxHandle()" class="sort-checkbox" >
+        </label>
+        <div class="select--wrapper">
+          <ng-select
+            (change)="changeFn($event)"
+            placeholder="Choose field for sorting"
+            [items]="sortingSelectList"
+          ></ng-select>
+        </div>
+      </div>
+
+        <div *ngIf="phones.length; else emptyCart" class="cart__list">
             <app-cart-item
-                *ngFor="let phone of phones | async; trackBy: trackByFn"
+                *ngFor="let phone of phones | orderBy : selectValue :isAsc trackBy: trackByFn"
                 class="cart__item"
                 [phone]="phone"
                 [isPhoneInCart]="isCartOpen"
@@ -21,7 +36,7 @@
             </div>
         </ng-template>
 
-        <div *ngIf="(phones | async)?.length" class="order-amount__wrapper">
+        <div *ngIf="phones.length" class="order-amount__wrapper">
             <div class="total-sum__wrapper">
                 <span class="total-sum__description">Full order amount:</span>
                 <span class="total-sum">{{(orderSum$ |async)?.totalSum}}</span>

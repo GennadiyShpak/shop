@@ -1,5 +1,5 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Observable, Subject, takeUntil} from 'rxjs';
 import { ProductModel } from 'src/app/shared/models/product-model';
 import { CartService } from 'src/app/shared/services/cart.service';
 import { ProductsService } from 'src/app/shared/services/producs.service';
@@ -11,7 +11,7 @@ import { ProductsService } from 'src/app/shared/services/producs.service';
 })
 export class ProductListComponent implements OnInit, OnDestroy {
 
-  phonesForSale: ProductModel[] = [];
+  phonesForSale!: Observable<ProductModel[]>;
   isCartOpen: boolean = false;
   isInfoOpen: boolean = false;
 

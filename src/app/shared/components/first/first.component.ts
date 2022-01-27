@@ -29,7 +29,7 @@ export class FirstComponent {
     return this.randomId ?? 'abcdefj'
   }
 
-  getId(): number {
+  getId() {
     return this.generatorService?.getNewID() ?? 1;
   }
 }
