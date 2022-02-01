@@ -38,6 +38,8 @@ export class ProductsService {
   private phonesForSale$: BehaviorSubject<ProductModel[]> = new BehaviorSubject<ProductModel[]>(phonesForSale);
 
   getProducts(): Observable<ProductModel[]> {
-    return this.phonesForSale$;
+    return this.phonesForSale$.asObservable();
+    // or
+    // return of(phonesForSale);
   }
 }
