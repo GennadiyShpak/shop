@@ -7,8 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 @NgModule({
   declarations: [ProductListComponent],
   imports: [
-    SharedModule
-  ],
-  exports: [ProductListComponent]
+    SharedModule,
+  ]
 })
 export class ProductListModule { }

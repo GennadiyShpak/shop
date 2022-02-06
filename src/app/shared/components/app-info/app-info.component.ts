@@ -1,6 +1,6 @@
-import {Component, Inject, InjectionToken, OnInit} from '@angular/core';
-import {appInfo, ConstantService} from "../../../../core/services/constant.service";
-import {AppInfo} from "../../../models/app-info";
+import {Component, OnInit} from '@angular/core';
+import {appInfo, ConstantService} from "../../../core/services/constant.service";
+import {AppInfo} from "../../models/app-info";
 
 
 @Component({

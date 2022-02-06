@@ -1,0 +1,18 @@
+<div class="nav-bar--wrapper">
+
+  <ul class="nav-bar__list">
+    <li class="nav-bar__item">
+      <a class="nav-bar__link" [routerLink]="[routeLinks['productLink']]" routerLinkActive="active">Product list</a>
+    </li>
+
+    <li class="nav-bar__item">
+      <a class="nav-bar__link" [routerLink]="[routeLinks['cartLink']]" routerLinkActive="active">Cart</a>
+    </li>
+
+    <li class="nav-bar__item">
+      <a class="nav-bar__link" [routerLink]="[routeLinks['adminLink']]" routerLinkActive="active">Admin</a>
+    </li>
+  </ul>
+
+  <button (click)="onLogOut()">Log out</button>
+</div>

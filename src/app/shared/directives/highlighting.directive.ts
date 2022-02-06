@@ -6,7 +6,7 @@ import { Directive, HostBinding, HostListener, Input} from '@angular/core';
 export class HighlightingDirective {
   @Input() isPhoneInCart!: boolean
 
-  @HostBinding('style.backgroundColor') componentsClass!: string; 
+  @HostBinding('style.backgroundColor') componentsClass!: string;
 
   @HostListener('mouseenter')
   onMouseEnter(): void {

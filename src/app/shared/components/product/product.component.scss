@@ -8,6 +8,7 @@
     height: auto;
     padding: 20px 0;
     align-items: center;
+    cursor: pointer;
 
     &__image {
         width: 130px;
@@ -16,19 +17,36 @@
 
     &__description-list {
         align-self: center;
-        list-style: none;
         padding: 0;
     }
 }
 
-.add-btn {
+.add-btn,
+.back-btn{
     padding: 5px 10px;
 
     &__wrapper {
         align-self: center;
+      margin-bottom: 10px;
     }
 }
 
 .field-name {
     padding-right: 5px;
+}
+
+.counter {
+  margin: 0 4px;
+
+  &__wrapper {
+    margin-bottom: 5px;
+  }
+}
+
+.total-cost__wrapper {
+  margin-bottom: 5px;
+}
+
+.remove-from-cart__btn--wrapper {
+  margin-bottom: 5px;
 }

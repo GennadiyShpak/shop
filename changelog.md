@@ -57,3 +57,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -currency pipe to product component
 -orderBy pipe to cartList component
 -uppercase pipe to product component
+
+##[homework-5] - 07.07.2022
+
+### Added
+- library lodash
+- Guards:
+    admin.guard,
+    admin-resolver.guard,
+    auth.guard,
+    can-deactivate.guard
+- can-component-deactivate.interface
+- auth.service
+- dialog.service
+- admin component
+- login component
+- process-order component
+- implemented routing systems
