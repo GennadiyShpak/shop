@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CartProductModel, ProductModel } from '../models/product-model';
+import { ProductModel } from '../models/product.model';
 import { CartStatistics } from "../models/cart-statistics";
 
 @Injectable({
@@ -8,23 +8,20 @@ import { CartStatistics } from "../models/cart-statistics";
 })
 export class CartService {
 
-  private isCartOpen: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  isCartOpen$: Observable<boolean> = this.isCartOpen.asObservable();
-
-  private productsInCart$$: BehaviorSubject<CartProductModel[]> = new BehaviorSubject<CartProductModel[]>([]);
-  productsInCart$: Observable<CartProductModel[]> = this.productsInCart$$.asObservable();
+  private productsInCart$$: BehaviorSubject<ProductModel[]> = new BehaviorSubject<ProductModel[]>([]);
+  productsInCart$: Observable<ProductModel[]> = this.productsInCart$$.asObservable();
 
   private cartListStatistics$$: BehaviorSubject<CartStatistics> = new BehaviorSubject<CartStatistics>({} as CartStatistics);
   cartListStatistics$ = this.cartListStatistics$$.asObservable()
 
   readonly lastPhoneInCart: number = 1;
 
-  getCartsProducts(): Observable<CartProductModel[]> {
+  getCartsProducts(): Observable<ProductModel[]> {
     return this.productsInCart$;
   }
 
   addProductsToCart(product: ProductModel): void {
-    const cartProduct: CartProductModel = {...product,...{phoneInCart: 1}};
+    const cartProduct: ProductModel = {...product,...{phoneInCart: 1}};
     const isProductPresent = this.isPresentInCart(cartProduct);
     const productsInCart = [...this.productsInCart$$.value];
     if (isProductPresent) {
@@ -36,7 +33,7 @@ export class CartService {
     this.cartListStatistics$$.next(this.getCartStatistic());
   }
 
-  removeProductFromCart(product: CartProductModel): void{
+  removeProductFromCart(product: ProductModel): void{
     if (product.phoneInCart === this.lastPhoneInCart) {
       this.filterProductList(product);
     } else {
@@ -45,20 +42,12 @@ export class CartService {
     this.cartListStatistics$$.next(this.getCartStatistic());
   }
 
-  getTotalSumPerProduct(phone: CartProductModel): number{
+  getTotalSumPerProduct(phone: ProductModel): number{
       const {price, phoneInCart} = phone;
-      return price * phoneInCart;
+      return phoneInCart? price * phoneInCart: 0;
   }
 
-  setIsCartOpenTrue(): void {
-      this.isCartOpen.next(true);
-  }
-
-  setIsCartOpenFalse(): void {
-      this.isCartOpen.next(false);
-  }
-
-  filterProductList(product: CartProductModel): void {
+  filterProductList(product: ProductModel): void {
       let cartList = this.productsInCart$$.value
       cartList = cartList.filter(phone => phone.name !== product.name);
       this.productsInCart$$.next(cartList);
@@ -74,14 +63,14 @@ export class CartService {
     return !Boolean(this.productsInCart$$.value.length)
   }
 
-  private isPresentInCart(product: CartProductModel): boolean {
+  private isPresentInCart(product: ProductModel): boolean {
       return Boolean(this.productsInCart$$.value.some(phone => phone.name === product.name));
   }
 
-  private incrementCartCounter(product: CartProductModel): void {
+  private incrementCartCounter(product: ProductModel): void {
       const cartList = this.productsInCart$$.value
       const phone = cartList.find(phone => phone.name === product.name);
-      if (phone) {
+      if (phone?.phoneInCart) {
         phone.phoneInCart += 1;
       }
       this.productsInCart$$.next(cartList);
@@ -89,10 +78,10 @@ export class CartService {
       this.cartListStatistics$$.next(this.getCartStatistic());
   }
 
-  private decrementCartCounter(product: CartProductModel): void {
+  private decrementCartCounter(product: ProductModel): void {
       const cartList = this.productsInCart$$.value
       const phone = cartList.find(phone => phone.name === product.name);
-      if (phone) {
+      if (phone?.phoneInCart) {
         phone.phoneInCart -= 1;
       }
       this.productsInCart$$.next(cartList);
@@ -100,16 +89,19 @@ export class CartService {
       this.cartListStatistics$$.next(this.getCartStatistic());
   }
 
-  private getTotalSumInCart (cartList: CartProductModel[]): number {
+  private getTotalSumInCart (cartList: ProductModel[]): number {
     return cartList.reduce((acc, product) => {
-      const totalProductCost = product.phoneInCart * product.price;
-      return acc + totalProductCost
+      if(product.phoneInCart){
+        const totalProductCost = product.phoneInCart * product.price;
+        return acc + totalProductCost
+      }
+      return 0
     }, 0)
   }
 
-  private getCountProductInCart (cartList: CartProductModel[]): number {
+  private getCountProductInCart (cartList: ProductModel[]): number {
     return cartList.reduce((acc, product) => {
-      return acc + product.phoneInCart
+      return product.phoneInCart? acc + product.phoneInCart : 0
     }, 0)
   }
 

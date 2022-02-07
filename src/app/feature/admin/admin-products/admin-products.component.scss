@@ -1,0 +1,17 @@
+.product {
+  &__item {
+    &:not(last-child) {
+      margin-right: 30px;
+    }
+
+    &--name {
+      text-align: center;
+    }
+  }
+
+  &__list {
+    display: flex;
+    background-color: #fff;
+    padding-bottom: 20px;
+  }
+}

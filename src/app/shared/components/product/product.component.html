@@ -1,7 +1,6 @@
-<li
+<div
     appHighlighting
     class="product"
-    [isPhoneInCart]="isPhoneInCart"
     appBgColor="aquamarine"
  >
     <img class="product__image" [src]="phone.image" alt="phone.name">
@@ -12,7 +11,7 @@
           <span class="field-name">price:</span>
           {{phone.price|currency:"UAH":"symbol-narrow"}}
         </li>
-        <li *ngIf="!isPhoneInCart" class="product__description-item">
+        <li class="product__description-item">
             <span *ngIf="phone.isAvailable; else notAvailable">Available for sale</span>
             <ng-template #notAvailable>
                 <span class="product__description-item">Not in stock</span>
@@ -20,7 +19,30 @@
         </li>
     </ul>
 
-    <div *ngIf="!isPhoneInCart" class="add-btn__wrapper">
+    <div *ngIf="productId && !isInCart" class="add-btn__wrapper">
         <button class="add-btn" (click)="addToCart(phone)" [disabled]="!phone.isAvailable">Add to cart</button>
     </div>
-</li>
+
+    <div *ngIf="isInCart" class="counter__wrapper">
+      <button (click)="decrementPhone(phone)">-</button>
+      <span class="counter">{{phone.phoneInCart}}</span>
+      <button (click)="incrementPhone(phone)">+</button>
+    </div>
+
+    <div *ngIf="isInCart" class="total-cost__wrapper">
+      <span>Total cost:</span>
+      <span>{{totalCount}}</span>
+    </div>
+
+    <div *ngIf="isInCart" class="remove-from-cart__btn--wrapper">
+      <button class="remove-from-cart__btn" (click)="removeFromCart(phone)">remove from cart</button>
+    </div>
+
+    <div *ngIf="productId" class="back-btn__wrapper">
+        <button class="back-btn" (click)="onBack()">Back</button>
+    </div>
+
+    <div *ngIf="!productId" class="back-btn__wrapper">
+          <button class="back-btn" (click)="getProductDetail(phone)">Details</button>
+      </div>
+</div>

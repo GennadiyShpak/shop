@@ -1,0 +1,22 @@
+<div class="login__page--wrapper">
+  <h2>Choose your role</h2>
+  <div class="login__role-wrapper">
+    <div class="admin--wrapper">
+      <label for="admin">
+        Admin:
+      </label>
+      <input id="admin" [(ngModel)]="userRole" value="Admin" name="role" type="radio">
+    </div>
+
+    <div class="user--wrapper">
+      <label for="user">
+        User:
+      </label>
+      <input id="user" [(ngModel)]="userRole" checked value="Users" name="role" type="radio">
+    </div>
+  </div>
+
+  <div class="login__btn--wrapper">
+    <button (click)="onLogIn()">Log in</button>
+  </div>
+</div>

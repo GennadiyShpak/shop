@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { ProductComponent } from './components/product/product.component';
 import { HighlightingDirective } from './directives/highlighting.directive';
 import { BackgroundColorDirective } from './directives/background-color.directive';
-import { AppInfoComponent } from './components/app-info/app-info/app-info.component';
-import { FirstComponent } from './components/first/first.component';
 import { OrderByPipe } from './pipes/order-by.pipe';
 import {FormsModule} from "@angular/forms";
+import {AppInfoComponent, NotFoundComponent} from "./components";
 
 
 
@@ -16,20 +16,20 @@ import {FormsModule} from "@angular/forms";
     HighlightingDirective,
     BackgroundColorDirective,
     AppInfoComponent,
-    FirstComponent,
-    OrderByPipe
+    OrderByPipe,
+    NotFoundComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
   ],
   exports: [
     ProductComponent,
     HighlightingDirective,
     AppInfoComponent,
     OrderByPipe,
-    FirstComponent,
     CommonModule,
-    FormsModule
+    FormsModule,
+    NotFoundComponent
   ],
 })
 export class SharedModule { }

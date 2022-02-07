@@ -11,14 +11,13 @@
 
   </div>
 
-  <ul *ngIf="!isCartOpen" class="phones__wrapper">
+  <div class="phones__wrapper">
     <app-product
       *ngFor="let phone of phonesForSale | async; trackBy: trackByFn"
       [phone]="phone"
-      [isPhoneInCart]="isCartOpen"
-      (getPhoneToCart)="onAddToCart($event)"
+      (openProduct)="onOpenProduct($event)"
     >
     </app-product>
-  </ul>
+  </div>
 
 </div>

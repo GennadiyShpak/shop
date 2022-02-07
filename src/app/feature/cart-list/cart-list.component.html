@@ -1,9 +1,10 @@
 <div class="cart__wrapper">
-    <div class="open-cart__btn--wrapper">
-        <button (click)="onOpenCartClick()">{{cartBtnStatus}} cart</button>
+
+    <div class="open-order__btn--wrapper">
+      <button (click)="onOpenOrder()">Open order</button>
     </div>
 
-    <div *ngIf="isCartOpen" class="cart">
+    <div class="cart">
 
       <div class="sort-form--wrapper" *ngIf="phones.length > 1">
         <label class="checkbox-label">
@@ -15,25 +16,27 @@
             (change)="changeFn($event)"
             placeholder="Choose field for sorting"
             [items]="sortingSelectList"
-          ></ng-select>
+          ></ng-select>`
         </div>
       </div>
 
-        <div *ngIf="phones.length; else emptyCart" class="cart__list">
-            <app-cart-item
+        <div class="cart__list" *ngIf="phones.length; else emptyCart" class="cart__list">
+            <app-product
                 *ngFor="let phone of phones | orderBy : selectValue :isAsc trackBy: trackByFn"
                 class="cart__item"
                 [phone]="phone"
-                [isPhoneInCart]="isCartOpen"
+                [isDetailView]="isDetailView"
                 (incrementPhoneInCart)="onIncrementPhoneBtn($event)"
                 (decrementPhoneInCart)="onDecrementPhoneBtn($event)"
                 (removePhoneFromCart)="onRemovePhoneBtn($event)"
-            ></app-cart-item>
+                (openProduct)="onOpenProduct($event)"
+            ></app-product>
         </div>
+
         <ng-template #emptyCart>
-            <div class="cart__list--empty">
-                <h2 class="empty-cart">The cart is empty</h2>
-            </div>
+          <div class="cart__list--empty">
+            <h2 class="empty-cart">The cart is empty</h2>
+          </div>
         </ng-template>
 
         <div *ngIf="phones.length" class="order-amount__wrapper">

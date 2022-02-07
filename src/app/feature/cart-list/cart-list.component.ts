@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import {Observable, Subject, takeUntil} from 'rxjs';
-import { CartProductModel } from 'src/app/shared/models/product-model';
+import { Observable, Subject } from 'rxjs';
+import {Router} from "@angular/router";
+
+import { ProductModel } from 'src/app/shared/models/product.model';
 import { CartService } from 'src/app/shared/services/cart.service';
-import {CartStatistics} from "../../shared/models/cart-statistics";
-import {CartListSelectEnum} from "../../shared/models/ng-select-types";
+import {CartListSelectEnum, CartStatistics, RouteConfig} from "../../shared/models";
 
 @Component({
   selector: 'app-cart-list',
@@ -13,22 +14,22 @@ import {CartListSelectEnum} from "../../shared/models/ng-select-types";
 })
 export class CartListComponent implements OnInit, OnDestroy {
 
-  phones!: CartProductModel[];
-  isCartOpen: boolean = false;
+  phones!: ProductModel[];
   cartBtnStatus!: string;
   orderSum$!: Observable<CartStatistics>;
   isAsc: boolean = false;
   sortingSelectList: CartListSelectEnum[] = [CartListSelectEnum.phoneInCart, CartListSelectEnum.name, CartListSelectEnum.price];
   selectValue!: CartListSelectEnum;
+  isDetailView!: boolean;
 
   private unsubscribe$: Subject<any> = new Subject();
 
   constructor(
     private cartService: CartService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.initServices();
     this.getProducts();
     this.orderSum$ = this.cartService.cartListStatistics$;
   }
@@ -42,22 +43,27 @@ export class CartListComponent implements OnInit, OnDestroy {
     return index;
   }
 
-  onOpenCartClick(): void {
-    this.isCartOpen
-    ? this.cartService.setIsCartOpenFalse()
-    : this.cartService.setIsCartOpenTrue();
-  }
-
-  onIncrementPhoneBtn(phone: CartProductModel): void {
+  onIncrementPhoneBtn(phone: ProductModel): void {
     this.cartService.addProductsToCart(phone);
   }
 
-  onRemovePhoneBtn(phone: CartProductModel): void {
+  onRemovePhoneBtn(phone: ProductModel): void {
     this.cartService.filterProductList(phone);
   }
 
-  onDecrementPhoneBtn(phone: CartProductModel): void {
+  onDecrementPhoneBtn(phone: ProductModel): void {
     this.cartService.removeProductFromCart(phone);
+  }
+
+  onOpenProduct(phone: ProductModel):void {
+    this.isDetailView = true;
+    const link = [this.router.url, phone.id];
+    this.router.navigate(link)
+  }
+
+  onOpenOrder(): void {
+    const link = ['/', RouteConfig.order];
+    this.router.navigate(link)
   }
 
   clearCart(): void {
@@ -72,28 +78,9 @@ export class CartListComponent implements OnInit, OnDestroy {
     this.selectValue = value;
   }
 
-  private initServices(): void {
-    this.setIsCartOpen();
-  }
-
-  private setIsCartOpen(): void {
-    this.cartService.isCartOpen$.pipe(takeUntil(this.unsubscribe$)).subscribe(
-      value => {
-        this.isCartOpen = value;
-        this.setCartStatus();
-      }
-    )
-  }
-
   private getProducts(): void {
     this.cartService.getCartsProducts().subscribe((cartList) => {
       this.phones = cartList
     });
-  }
-
-  private setCartStatus(): void {
-    this.isCartOpen
-    ? this.cartBtnStatus = 'Close'
-    : this.cartBtnStatus = 'Open';
   }
 }

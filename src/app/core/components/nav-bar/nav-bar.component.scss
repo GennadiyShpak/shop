@@ -1,0 +1,31 @@
+.nav-bar {
+  &--wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    height: 40px;
+  }
+
+  &__list {
+    display: flex;
+    padding: 0;
+  }
+
+  &__item {
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+
+  &__link {
+    color: gray;
+    font-weight: bold;
+    text-decoration: none;
+  }
+}
+
+.active {
+  color: green;
+  text-decoration: underline;
+}

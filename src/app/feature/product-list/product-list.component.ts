@@ -1,8 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable, Subject, takeUntil} from 'rxjs';
-import { ProductModel } from 'src/app/shared/models/product-model';
+import {Observable, Subject} from 'rxjs';
+import { ProductModel } from 'src/app/shared/models/product.model';
 import { CartService } from 'src/app/shared/services/cart.service';
 import { ProductsService } from 'src/app/shared/services/producs.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-product-list',
@@ -12,14 +13,15 @@ import { ProductsService } from 'src/app/shared/services/producs.service';
 export class ProductListComponent implements OnInit, OnDestroy {
 
   phonesForSale!: Observable<ProductModel[]>;
-  isCartOpen: boolean = false;
   isInfoOpen: boolean = false;
+  pageUrl!: string;
 
   private unsubscribe$: Subject<any> = new Subject();
 
   constructor(
     private productsService: ProductsService,
     private cartService: CartService,
+    private router: Router,
     ) { }
 
   ngOnInit(): void {
@@ -35,26 +37,17 @@ export class ProductListComponent implements OnInit, OnDestroy {
     return index;
   }
 
-  onAddToCart(phone: ProductModel):void {
-    this.cartService.addProductsToCart(phone);
-    console.log(`This ${phone.name} was added to cart`);
-  }
-
   onInfoBtnClick():void {
     this.isInfoOpen = !this.isInfoOpen
   }
 
-  private initServices(): void {
-    this.setIsCartOpen();
-    this.getPhones();
+  onOpenProduct(phone: ProductModel):void {
+    const link = [this.router.url, phone.id];
+    this.router.navigate(link);
   }
 
-  private setIsCartOpen(): void {
-    this.cartService.isCartOpen$.pipe(takeUntil(this.unsubscribe$)).subscribe(
-      value => {
-        this.isCartOpen = value
-      }
-    )
+  private initServices(): void {
+    this.getPhones();
   }
 
   private getPhones(): void {
