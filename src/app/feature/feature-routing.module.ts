@@ -13,6 +13,7 @@ import {adminRouting} from "./admin/admin-routing.config";
 import {AdminFormComponent} from "./admin/admin-form/admin-form.component";
 import {AdminResolveGuard} from "../core/guards/adnin-resolver.guard";
 import {CanDeactivateGuard} from "../core/guards/can-deactivate.guard";
+import { CartResolveGuard } from '../core/guards/cart-list-resolver.guard';
 
 
 const routes: Routes = [
@@ -33,7 +34,10 @@ const routes: Routes = [
       {
         path: RouteConfig.cartPage,
         loadChildren: () => import('./cart-list/cart-list.module').then(m => m.CartListModule),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        resolve: {
+          productList: CartResolveGuard
+        }
       },
       {
         path: RouteConfig.order,
@@ -48,7 +52,7 @@ const routes: Routes = [
       {
         path: `${RouteConfig.cartPage}/:productId`,
         component: ProductComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
       },
       {
         path: RouteConfig.adminPage,

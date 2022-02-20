@@ -13,7 +13,7 @@
 
   <div class="phones__wrapper">
     <app-product
-      *ngFor="let phone of phonesForSale | async; trackBy: trackByFn"
+      *ngFor="let phone of phonesForSale$ | async; trackBy: trackByFn"
       [phone]="phone"
       (openProduct)="onOpenProduct($event)"
     >

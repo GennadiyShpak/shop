@@ -4,7 +4,7 @@
     image: string,
     price: number,
     isAvailable: boolean,
-    phoneInCart?: number
+    phoneInCart: number
   }
 
   export interface CartProductModel extends ProductModel {

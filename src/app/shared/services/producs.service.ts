@@ -9,6 +9,7 @@ const phonesForSale: ProductModel[] = [
     image: '../../../assets/apple.jpg',
     price: 14999,
     isAvailable: true,
+    phoneInCart: 0
   },
   {
     id: 2,
@@ -16,6 +17,7 @@ const phonesForSale: ProductModel[] = [
     image: '../../../assets/samsung.jpg',
     price: 10499,
     isAvailable: true,
+    phoneInCart: 0
   },
   {
     id: 3,
@@ -23,6 +25,7 @@ const phonesForSale: ProductModel[] = [
     image: '../../../assets/poco.jpg',
     price: 8499,
     isAvailable: false,
+    phoneInCart: 0
   },
   {
     id: 4,
@@ -30,6 +33,7 @@ const phonesForSale: ProductModel[] = [
     image: '../../../assets/xiaomi.jpg',
     price: 11999,
     isAvailable: true,
+    phoneInCart: 0
   }
 ];
 
@@ -51,7 +55,7 @@ export class ProductsService {
     return of(phonesForSale.find(product => product.id === productId) as ProductModel);
   }
 
-  addProduct(phone: Pick<ProductModel, 'name' | 'image' | 'price' | 'isAvailable'>) {
+  addProduct(phone: ProductModel) {
     const newPhone = {...phone, id: phonesForSale.length + 1}
     phonesForSale.push(newPhone);
   }

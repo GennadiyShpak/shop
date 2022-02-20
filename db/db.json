@@ -1,0 +1,36 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Apple",
+      "image": "assets/apple.jpg",
+      "price": 14999,
+      "phoneInCart": 3,
+      "isAvailable": true
+    },
+    {
+      "id": 2,
+      "name": "Samsung",
+      "image": "assets/samsung.jpg",
+      "price": 10499,
+      "phoneInCart": 3,
+      "isAvailable": true
+    },
+    {
+      "id": 3,
+      "name": "Poco",
+      "image": "assets/poco.jpg",
+      "price": 8499,
+      "phoneInCart": 0,
+      "isAvailable": false
+    },
+    {
+      "id": 4,
+      "name": "Xiaomi",
+      "image": "assets/xiaomi.jpg",
+      "price": 11999,
+      "phoneInCart": 0,
+      "isAvailable": true
+    }
+  ]
+}

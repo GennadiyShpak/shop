@@ -20,15 +20,12 @@
         </div>
       </div>
 
-        <div class="cart__list" *ngIf="phones.length; else emptyCart" class="cart__list">
+        <div class="cart__list" *ngIf="phones.length; else emptyCart">
             <app-product
                 *ngFor="let phone of phones | orderBy : selectValue :isAsc trackBy: trackByFn"
                 class="cart__item"
                 [phone]="phone"
                 [isDetailView]="isDetailView"
-                (incrementPhoneInCart)="onIncrementPhoneBtn($event)"
-                (decrementPhoneInCart)="onDecrementPhoneBtn($event)"
-                (removePhoneFromCart)="onRemovePhoneBtn($event)"
                 (openProduct)="onOpenProduct($event)"
             ></app-product>
         </div>
@@ -42,12 +39,12 @@
         <div *ngIf="phones.length" class="order-amount__wrapper">
             <div class="total-sum__wrapper">
                 <span class="total-sum__description">Full order amount:</span>
-                <span class="total-sum">{{(orderSum$ |async)?.totalSum}}</span>
+                <span class="total-sum">{{orderSum?.totalSum}}</span>
             </div>
 
             <div class="total-sum__wrapper">
                 <span class="total-sum__description">Phone in cart:</span>
-                <span class="total-sum">{{(orderSum$ | async)?.productInCart}}</span>
+                <span class="total-sum">{{orderSum.productInCart}}</span>
             </div>
 
             <div class="clear-cart__btn--wrapper">
