@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 3333 -o",
+    "start": "concurrently --kill-others \"ng serve --port 3353 -o\" \"json-server --static ./assets --port 4444 --watch db --delay 500\\db.json\"",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -31,6 +31,7 @@
     "@types/jasmine": "~3.10.0",
     "@types/lodash": "^4.14.178",
     "@types/node": "^12.11.1",
+    "concurrently": "^7.0.0",
     "jasmine-core": "~3.10.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",

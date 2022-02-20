@@ -4,38 +4,24 @@ import type { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of, EMPTY, catchError, take, switchMap } from 'rxjs';
 
 import {ProductModel, RouteConfig} from "../../shared/models";
-import {ProductsService} from "../../shared/services/producs.service";
+import { CartObservableService } from '../services/cart-observable.service';
 
 @Injectable({
   providedIn: 'any'
 })
 
-export class AdminResolveGuard implements Resolve<ProductModel> {
+export class CartResolveGuard implements Resolve<ProductModel[]> {
 
   constructor(
     private router: Router,
-    private productsService: ProductsService
+    private cartObservableService: CartObservableService
   ) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<ProductModel> {
-    if (!route.paramMap.has('productId')) {
-      return of({
-        id: 0,
-        price: 0,
-        image: '',
-        isAvailable: false,
-        name: '',
-        phoneInCart: 0
-      });
-    }
-
-    const id = +route.paramMap.get('productId')!;
-
-
-    return this.productsService.getProduct$(id).pipe(
-      switchMap((product: ProductModel) => {
-        if (product) {
-          return of(product);
+  resolve(route: ActivatedRouteSnapshot): Observable<ProductModel[]> {
+    return this.cartObservableService.getProducts().pipe(
+      switchMap((productList: ProductModel[]) => {
+        if (productList) {
+          return of(productList);
         } else {
           this.router.navigate([`/${RouteConfig.productsPage}`]);
           return EMPTY;

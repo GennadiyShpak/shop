@@ -4,6 +4,7 @@ import { ProductModel } from 'src/app/shared/models/product.model';
 import { CartService } from 'src/app/shared/services/cart.service';
 import { ProductsService } from 'src/app/shared/services/producs.service';
 import {Router} from "@angular/router";
+import { ProductsPromiseService } from 'src/app/core/services/products-promise.service';
 
 @Component({
   selector: 'app-product-list',
@@ -15,17 +16,19 @@ export class ProductListComponent implements OnInit, OnDestroy {
   phonesForSale!: Observable<ProductModel[]>;
   isInfoOpen: boolean = false;
   pageUrl!: string;
+  phonesForSale$!: Promise<ProductModel[]>;
 
   private unsubscribe$: Subject<any> = new Subject();
 
   constructor(
     private productsService: ProductsService,
-    private cartService: CartService,
     private router: Router,
+    private productsPromiseService: ProductsPromiseService
     ) { }
 
   ngOnInit(): void {
     this.initServices();
+    this.phonesForSale$ = this.productsPromiseService.getProducts();
   }
 
   ngOnDestroy() {

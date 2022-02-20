@@ -1,10 +1,11 @@
-import {Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import { Location } from '@angular/common'
 
 import {ProductModel} from 'src/app/shared/models/product.model';
-import {ProductsService} from "../../services/producs.service";
-import {CartService} from "../../services/cart.service";
+import { ProductsPromiseService } from 'src/app/core/services/products-promise.service';
+import { CartObservableService } from 'src/app/core/services/cart-observable.service';
+import { RouteConfig } from '../../models';
 
 @Component({
   selector: 'app-product',
@@ -15,10 +16,8 @@ export class ProductComponent implements OnInit {
   @Input() phone!: ProductModel;
   @Input() isDetailView!: boolean;
 
-  @Output() incrementPhoneInCart: EventEmitter<ProductModel> = new EventEmitter<ProductModel>();
-  @Output() decrementPhoneInCart: EventEmitter<ProductModel> = new EventEmitter<ProductModel>();
-  @Output() removePhoneFromCart: EventEmitter<ProductModel> = new EventEmitter<ProductModel>();
-
+  @Output() incrementPhoneCount: EventEmitter<ProductModel> = new EventEmitter<ProductModel>();
+  @Output() decrementPhoneCount: EventEmitter<ProductModel> = new EventEmitter<ProductModel>();
 
   @Output() sendPhoneToCart: EventEmitter<ProductModel> = new EventEmitter<ProductModel>();
   @Output() openProduct: EventEmitter<ProductModel> = new EventEmitter<ProductModel>();
@@ -26,20 +25,24 @@ export class ProductComponent implements OnInit {
   totalCount!: number;
   productId!: number;
   isInCart: boolean = false;
+  phone$!: Promise<ProductModel>;
+  canDecrementPhoneCount: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private productsService: ProductsService,
     private location: Location,
-    private cartService: CartService
+    private productsPromiseService: ProductsPromiseService,
+    private cartObservableService: CartObservableService,
+    private cdr: ChangeDetectorRef
     ) {
   }
 
   ngOnInit(): void {
     this.productId = Number(this.route.snapshot.paramMap.get('productId'));
-    this.getProductById();
+    this.getProductById(this.productId);
     this.isInCart = this.isProductInCart();
+    this.changeDecrementBtnStatus();
   }
 
   ngDoCheck(): void {
@@ -48,8 +51,10 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart(phone: ProductModel): void {
-    this.sendPhoneToCart.emit(phone);
-    this.cartService.addProductsToCart(phone);
+      phone = {...phone, phoneInCart: 1}
+      this.sendPhoneToCart.emit(phone);
+      this.cartObservableService.addProductToCart(phone).subscribe();
+      this.router.navigate([RouteConfig.productsPage]);
   }
 
   getProductDetail(phone: ProductModel) {
@@ -61,15 +66,29 @@ export class ProductComponent implements OnInit {
   }
 
   incrementPhone(phone: ProductModel): void {
-    this.incrementPhoneInCart.emit(phone);
+    this.cartObservableService.incrementProductInCart(phone).subscribe((phone) => {
+      this.canDecrementPhoneCount = true;
+      this.phone = phone;
+      this.cdr.detectChanges();
+    });
+    this.incrementPhoneCount.emit()
   }
 
   decrementPhone(phone: ProductModel): void {
-    this.decrementPhoneInCart.emit(phone);
+    this.cartObservableService.decrementProductInCart(phone).subscribe((phone) => {
+      if(phone.phoneInCart > 1) {
+        this.canDecrementPhoneCount = true
+      } else {
+        this.canDecrementPhoneCount = false
+      }
+      this.phone = phone;
+      this.cdr.detectChanges();
+    });
   }
 
   removeFromCart(phone: ProductModel): void {
-    this.removePhoneFromCart.emit(phone);
+    this.cartObservableService.removeProductFromCart(phone).subscribe();
+    this.router.navigate([RouteConfig.cartPage])
   }
 
   private isProductInCart():boolean {
@@ -77,14 +96,34 @@ export class ProductComponent implements OnInit {
   }
 
   private getTotalCount(phone: ProductModel): number{
+    if (!phone) {
+      return 0;
+    }
     const {price, phoneInCart} = phone;
-    return phoneInCart? price*phoneInCart : 0;
+    return  price*phoneInCart!
   }
 
-  private getProductById(): void {
+  private changeDecrementBtnStatus(): void {
+    if(this.phone?.phoneInCart > 1) {
+      this.canDecrementPhoneCount = true
+    }
+  }
+
+  private getProductById(id: number): void {
     if(this.productId) {
-      this.phone = this.productsService.getProduct(this.productId);
+      this.productsPromiseService.getProduct(id)
+      .then(phone => {
+        this.phone = phone
+      });
       this.isDetailView = true;
     }
+  }
+
+  get isCartInCart() {
+    return this.phone && Boolean(this.phone.phoneInCart)
+  }
+
+  get addButtonTitle() {
+    return this.isCartInCart? 'Phone already in cart' : 'Add to cart'
   }
 }
