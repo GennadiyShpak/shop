@@ -74,3 +74,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - login component
 - process-order component
 - implemented routing systems
+
+
+<!-- Замечаний нет, но проет у меня не стартовал -->
