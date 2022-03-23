@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import type { CanDeactivate, UrlTree } from '@angular/router';
 // rxjs
 import type { Observable } from 'rxjs';
-import {CanComponentDeactivate} from "../interfaces/can-component-deactivate.interface";
+// тут тоже можно добавить type
+import type {CanComponentDeactivate} from "../interfaces/can-component-deactivate.interface";
 @Injectable({
   providedIn: 'root'
 })
